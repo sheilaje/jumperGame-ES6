@@ -13,7 +13,6 @@ function drawBoard(jumper, board) {
     let rowP = document.createElement("p");
     rowP.innerHTML = row;
     board.appendChild(rowP);
-    console.log("x=", jumper.positionX, " y=", jumper.positionY);
   });
 }
 
@@ -27,7 +26,7 @@ $(document).ready(function() {
     if ((event.keyCode === 37) || (event.keyCode === 39)) {
       jumper.move((event.keyCode === 39) ? 1 : -1);
     } else if (event.keyCode === 38){
-      jumper.jump(-1,1);
+      jumper.jump(1);
     }
     drawBoard(jumper, board);
   }

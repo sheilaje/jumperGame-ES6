@@ -1,13 +1,44 @@
 class Jumper {
   constructor(positionX, positionY) {
-    this.map = this.getMap();
+    this.map = this.getMap(0);
     this.positionX = positionX;
     this.positionY = positionY;
   }
 
-  getMap() {
+  getMap(level) {
     const star = "\u{2b50}";
-    let rows = [".......", ".......", `${star}......`, "##.....", "####...", "#######"];
+    let rows = [];
+    if(level === 0) {
+      rows = ["........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              "........................................",
+              ".......................................*",
+              "......................................##",
+              ".......................#............####",
+              ".....................#####.......#######"];
+    } else {
+      rows = [".......", ".......", `${star}......`, "##.....", "####...", "#######"];
+    }
+
     return rows;
   }
 
@@ -29,16 +60,25 @@ class Jumper {
   }
 
   canMove(x, y) {
-    let row = this.getRow(y);
-    console.log(x, y, row);
-    if(x < 0) {
+    if((x < 0) || (y < 0) || (y > this.map.length)) {
       return false;
-    } else if(x >= row.length) {
+    }
+
+    let row = this.getRow(y);
+    if(x >= row.length) {
       return false;
     } else if(row[x] === "#") {
       return false;
     }
+
     return true;
+  }
+
+  fall(x, y) {
+    if(this.canMove(x, y - 1)) {
+      y = y - 1;
+    }
+    return [x, y];
   }
 
   move(moveX)
@@ -46,19 +86,35 @@ class Jumper {
     let x = this.positionX + moveX;
     let y = this.positionY;
     if(this.canMove(x, y)) {
-      this.positionX = x;
-      this.positionY = y;
+      let position = this.fall(x, y);
+      this.positionX = position[0];
+      this.positionY = position[1];
     }
     return [this.positionX,this.positionY];
   }
 
-  jump(jumpX, jumpY)
+  isBlock(x, y) {
+    let row = this.getRow(y);
+    return (row[x] === "#");
+  }
+
+  jump(jumpY)
   {
+    let jumpX = 0;
+    if(this.isBlock(this.positionX + 1, this.positionY)) {
+      jumpX = 1;
+    } else if(this.isBlock(this.positionX - 1, this.positionY)) {
+      jumpX = -1;
+    } else {
+      jumpY = 0;
+    }
+
     let x = this.positionX + jumpX;
     let y = this.positionY + jumpY;
     if(this.canMove(x,y)) {
-      this.positionX = x;
-      this.positionY = y;
+      let position = this.fall(x, y);
+      this.positionX = position[0];
+      this.positionY = position[1];
     }
     return [this.positionX,this.positionY];
   }
