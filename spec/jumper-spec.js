@@ -27,7 +27,7 @@ describe ( 'Jumper', function() {
     expect(jumper.move(-1)).toEqual([5,1]);
   });
 
-  it('should move the charachter',function() {
+  it('should check if moving the charachter is possible',function() {
     expect(jumper.canMove(2,1)).toEqual(false);
   });
 

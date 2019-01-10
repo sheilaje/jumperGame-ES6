@@ -6,6 +6,7 @@ class Jumper {
   }
 
   getMap(level) {
+    // const fog = "\u{1f32b}";
     const star = "\u{2b50}";
     let rows = [];
     if(level === 0) {
@@ -37,6 +38,12 @@ class Jumper {
               ".....................#####.......#######"];
     } else {
       rows = [".......", ".......", `${star}......`, "##.....", "####...", "#######"];
+    }
+
+    for(let i = 0; i < rows.length; i++) {
+      let chars = rows[i].split("");
+      let changed = chars.map((c) => {return ((c === "*") ? star : c)});
+      rows[i] = changed.join("");
     }
 
     return rows;
