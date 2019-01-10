@@ -5,6 +5,7 @@ class Jumper {
     this.positionY = positionY;
     this.super = false;
     this.cherries = [true, true, true];
+    this.isDone = false;
   }
 
   replaceChars(rows) {
@@ -36,7 +37,7 @@ class Jumper {
               "....#.......##############........###...",
               "....#.......###############..........###",
               "....#.######################........####",
-              "....#.#######################..##..#####",
+              "....#.######################...##..#####",
               "....#....................2.....#########",
               "....#........###########################",
               "....#.......##############..............",
@@ -49,10 +50,10 @@ class Jumper {
               "....#...............###############.0...",
               "....#................##################.",
               "....#.................###############..#",
-              "*...#.................................##",
-              "#...#....................###############",
-              "##..#............#######################",
-              "###.#...################################",
+              "....#.................................##",
+              "*...#....................###############",
+              "#...#............#######################",
+              "##..#...################################",
               "########################################"];
     } else {
       rows = [".......",
@@ -107,18 +108,26 @@ class Jumper {
     if(this.canMove(x, y - 1)) {
       y = y - 1;
     }
-    return [x, y];
+    return y;
+  }
+
+  updatePlayer(x, y) {
+    y = this.fall(x, y);
+    this.eat(x, y);
+    this.isDone = this.checkDone(x,y);
+    this.positionX = x;
+    this.positionY = y;
   }
 
   move(moveX)
   {
-    let x = this.positionX + moveX;
+    let x = this.positionX;
     let y = this.positionY;
+    if(this.isBlock(x, y - 1)) {
+      x += moveX;
+    }
     if(this.canMove(x, y)) {
-      let position = this.fall(x, y);
-      this.eat(x,y);
-      this.positionX = position[0];
-      this.positionY = position[1];
+      this.updatePlayer(x, y);
     }
     return [this.positionX,this.positionY];
   }
@@ -160,9 +169,7 @@ class Jumper {
     let x = this.positionX + jumpX;
     let y = this.positionY + jumpY;
     if(this.canMove(x,y)) {
-      let position = this.fall(x, y);
-      this.positionX = position[0];
-      this.positionY = position[1];
+      this.updatePlayer(x, y);
     }
     return [this.positionX,this.positionY];
   }
@@ -184,6 +191,12 @@ class Jumper {
     } else if((row[x] === "2") && this.cherries[2]) {
       this.eatCherry(2);
     }
+  }
+
+  checkDone(x,y)
+  {
+    let row = this.getRow(y);
+    return (row[x] === "*");
   }
 }
 
