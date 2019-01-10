@@ -35,4 +35,14 @@ describe ( 'Jumper', function() {
     expect(jumper.jump(1)).toEqual([3,2]);
   });
 
+  it('should eat the cherry', function(){
+    jumper.eat(6,1)
+    expect(jumper.cherries[1]).toEqual(false);
+  });
+
+  it('should change to a super chrachter', function(){
+    jumper.eat(6,1)
+    expect(jumper.super).toEqual(true);
+  });
+
 });
