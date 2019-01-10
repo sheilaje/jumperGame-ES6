@@ -4,7 +4,7 @@ describe ( 'Jumper', function() {
   var jumper;
 
   beforeEach(function() {
-    jumper = new Jumper (6,1);
+    jumper = new Jumper (0,4,1);
   });
 
   it('should return an array of rows', function() {
@@ -24,7 +24,7 @@ describe ( 'Jumper', function() {
   });
 
   it('should move the charachter',function() {
-    expect(jumper.move(-1)).toEqual([5,1]);
+    expect(jumper.move(1)).toEqual([5,1]);
   });
 
   it('should check if moving the charachter is possible',function() {
@@ -32,7 +32,7 @@ describe ( 'Jumper', function() {
   });
 
   it('should jump the charachter',function() {
-    expect(jumper.jump(-1,1)).toEqual([5,2]);
+    expect(jumper.jump(1)).toEqual([3,2]);
   });
 
 });

@@ -1,15 +1,29 @@
 class Jumper {
-  constructor(positionX, positionY) {
-    this.map = this.getMap(0);
+  constructor(mapLevel,positionX, positionY) {
+    this.map = this.getMap(mapLevel);
     this.positionX = positionX;
     this.positionY = positionY;
   }
 
-  getMap(level) {
-    // const fog = "\u{1f32b}";
+  replaceChars(rows) {
+    const sky = "\u2b1c";
+    const block = "\u{2b1b}";
     const star = "\u{2b50}";
+    const cherry = "\u{1f352}";
+
+    for(let i = 0; i < rows.length; i++) {
+      let chars = rows[i].split("");
+      chars = chars.map((c) => {return ((c === ".") ? sky : c)});
+      chars = chars.map((c) => {return ((c === "#") ? block : c)});
+      chars = chars.map((c) => {return ((c === "*") ? star : c)});
+      chars = chars.map((c) => {return ((c === "@") ? cherry : c)});
+      rows[i] = chars.join("");
+    }
+  }
+
+  getMap(level) {
     let rows = [];
-    if(level === 0) {
+    if(level === 1) {
       rows = ["........................................",
               "........................................",
               "........................................",
@@ -25,7 +39,7 @@ class Jumper {
               "........................................",
               "........................................",
               "........................................",
-              "........................................",
+              "............@...........................",
               "........................................",
               "........................................",
               "........................................",
@@ -37,14 +51,15 @@ class Jumper {
               ".......................#............####",
               ".....................#####.......#######"];
     } else {
-      rows = [".......", ".......", `${star}......`, "##.....", "####...", "#######"];
+      rows = [".......",
+              ".......",
+              "*......",
+              "##.@...",
+              "####...",
+              "#######"];
     }
 
-    for(let i = 0; i < rows.length; i++) {
-      let chars = rows[i].split("");
-      let changed = chars.map((c) => {return ((c === "*") ? star : c)});
-      rows[i] = changed.join("");
-    }
+    //this.replaceChars(rows);
 
     return rows;
   }
@@ -58,6 +73,9 @@ class Jumper {
     let playerRow = rows.length - 1 - this.positionY;
     const player = "\u{1f6b6}";
     rows[playerRow] = this.setCharAt(rows[playerRow], this.positionX, player);
+
+    this.replaceChars(rows);
+
     return rows;
   }
 

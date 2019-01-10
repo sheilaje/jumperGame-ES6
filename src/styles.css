@@ -1,5 +1,5 @@
 html {
-  font-size: 50px;
+  font-size: 10px;
 }
 
 body {
@@ -10,11 +10,21 @@ body {
 #board {
   display: inline-block;
   font-family: monospace;
+  font-size: 40px;
   white-space: pre;
-  background-color: #cdf;
+  background-color: #d8d8d8;
+  margin-top: 20px;
 }
 
 #board p {
   margin: 0;
-  line-height: 0.95;
+  line-height: 1;
+}
+
+@media screen and (max-width: 1200px) {
+  #board { font-size: 24px; }
+}
+
+@media screen and (max-width: 960px) {
+  #board { font-size: 16px; }
 }

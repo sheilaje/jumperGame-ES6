@@ -17,7 +17,7 @@ function drawBoard(jumper, board) {
 }
 
 $(document).ready(function() {
-  let jumper = new Jumper(6,1);
+  let jumper = new Jumper(1,4,1);
 
   let board = document.getElementById("board");
   drawBoard(jumper, board);
