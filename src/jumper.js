@@ -128,15 +128,33 @@ class Jumper {
     return (row[x] === "#");
   }
 
-  jump(jumpY)
+  canJump(x, y) {
+    return this.isBlock(this.positionX + x, this.positionY + y - 1);
+  }
+
+  jump()
   {
     let jumpX = 0;
-    if(this.isBlock(this.positionX + 1, this.positionY)) {
-      jumpX = 1;
-    } else if(this.isBlock(this.positionX - 1, this.positionY)) {
-      jumpX = -1;
-    } else {
-      jumpY = 0;
+    let jumpY = 0;
+
+    if(this.super) {
+      if(this.canJump(1, 2)) {
+        jumpX = 1;
+        jumpY = 2;
+      } else if(this.canJump(-1, 2)) {
+        jumpX = -1;
+        jumpY = 2;
+      }
+    }
+
+    if(jumpY == 0) {
+      if(this.canJump(1, 1)) {
+        jumpX = 1;
+        jumpY = 1;
+      } else if(this.canJump(-1, 1)) {
+        jumpX = -1;
+        jumpY = 1;
+      }
     }
 
     let x = this.positionX + jumpX;
