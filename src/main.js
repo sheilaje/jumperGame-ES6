@@ -39,15 +39,18 @@ $(document).ready(function() {
       drawBoard(jumper,board);
       if(jumper.isDone) {
         if(jumper.nextLevel()) {
-            $("#timer").text("Score: " + (1000000 / timer));
+            $("#timer").text("");
+            $("#score").text("Score: " + (1000000 / timer).toFixed(0));
             drawBoard(jumper, board);
             isOver = true;
+          } else {
+            timer = 0;
+            $("#timer").text("Timer: " + timer);
           }
-        timer = 0;
       } else {
         timer++;
+        $("#timer").text("Timer: " + timer);
       }
-      $("#timer").text("Timer: " + timer);
     }
   }, 1000);
 
