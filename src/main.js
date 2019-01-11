@@ -17,7 +17,9 @@ function drawBoard(jumper, board) {
 }
 
 $(document).ready(function() {
-  let jumper = new Jumper(1,5,1);
+  let isOver = false;
+  let jumper = new Jumper();
+  jumper.nextLevel();
 
   let timer = 0;
   let board = document.getElementById("board");
@@ -31,13 +33,21 @@ $(document).ready(function() {
     }
     drawBoard(jumper, board);
   }
+
   setInterval(() => {
-    drawBoard(jumper,board);
-    if(!jumper.isDone)
-    {
-      timer++;
-      $("#timer").text(timer);
-      console.log("timer:", timer);
+    if(!isOver) {
+      drawBoard(jumper,board);
+      if(jumper.isDone) {
+        if(jumper.nextLevel()) {
+            $("#timer").text("Score: " + (1000000 / timer));
+            drawBoard(jumper, board);
+            isOver = true;
+          }
+        timer = 0;
+      } else {
+        timer++;
+      }
+      $("#timer").text("Timer: " + timer);
     }
   }, 1000);
 

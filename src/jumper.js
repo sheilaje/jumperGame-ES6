@@ -1,11 +1,32 @@
 class Jumper {
-  constructor(mapLevel,positionX, positionY) {
-    this.map = this.getMap(mapLevel);
-    this.positionX = positionX;
-    this.positionY = positionY;
+  constructor() {
+    this.mapLevel = 0;
+    this.map = this.getMap(this.mapLevel);
+    this.positionX = 4;
+    this.positionY = 1;
     this.super = false;
-    this.cherries = [true, true, true];
+    this.cherries = [true, true, true,true,true,true];
     this.isDone = false;
+  }
+
+  nextLevel() {
+    this.mapLevel++;
+    this.map = this.getMap(this.mapLevel);
+    this.isDone = false;
+    if(this.mapLevel === 1) {
+      this.positionX = 5;
+      this.positionY = 1;
+    } else if(this.mapLevel === 2) {
+      this.positionX = 0;
+      this.positionY = 1;
+    } else if(this.mapLevel === 3) {
+      this.positionX = 2;
+      this.positionY = 1;
+    }
+    if(this.mapLevel == 3) {
+      return true;
+    }
+    return false;
   }
 
   replaceChars(rows) {
@@ -22,6 +43,9 @@ class Jumper {
       chars = chars.map((c) => {return (c === "0") ? (this.cherries[0] ? cherry : sky) : c });
       chars = chars.map((c) => {return (c === "1") ? (this.cherries[1] ? cherry : sky) : c });
       chars = chars.map((c) => {return (c === "2") ? (this.cherries[2] ? cherry : sky) : c });
+      chars = chars.map((c) => {return (c === "3") ? (this.cherries[3] ? cherry : sky) : c });
+      chars = chars.map((c) => {return (c === "4") ? (this.cherries[4] ? cherry : sky) : c });
+      chars = chars.map((c) => {return (c === "5") ? (this.cherries[5] ? cherry : sky) : c });
       rows[i] = chars.join("");
     }
   }
@@ -55,7 +79,40 @@ class Jumper {
               "#...#............#######################",
               "##..#...################################",
               "########################################"];
-    } else {
+    } else if(level === 2) {
+      rows = ["........................................",
+	            "........................................",
+	            "........................................",
+      	      "*......................................5",
+	            "################################...#####",
+	            "###########################......#######",
+	            "##########################.#############",
+	            "#########################.##############",
+	            "##########...........###.###############",
+	            "######.....#########.##.#.............##",
+	            "#####..#############.#.##.###########..#",
+	            "####..#...##......##..###.#########...2#",
+	            "###..#.##.##.###..#######.########..####",
+	            "##..##.##.##.###.........3#######..#####",
+	            "##.###.##.##.###################..######",
+	            "##...........##################..#######",
+	            "####...#######################..########",
+	            "#####..##......######..........#########",
+	            "#####4.##..............#################",
+	            ".....########....#######################",
+	            "..##.########.##########################",
+	            ".0##...............1####################",
+              "########################################"];
+            } else if(level === 3) {
+      rows = ["########################################",
+              "########################################",
+              "##....#...#.###.#...##...#.#.#...#....##",
+              "##.####.#.#..#..#.####.#.#.#.#.###.##.##",
+              "##.#..#...#.#.#.#...##.#.#.#.#...#....##",
+              "##.##.#.#.#.###.#.####.#.##.##.###.#.###",
+              "##....#.#.#.###.#...##...##.##...#.##.##",
+              "########################################"];
+      } else {
       rows = [".......",
               ".......",
               "*......",
@@ -150,7 +207,8 @@ class Jumper {
       if(this.canJump(1, 2)) {
         jumpX = 1;
         jumpY = 2;
-      } else if(this.canJump(-1, 2)) {
+      }
+      if((jumpY == 0) && this.canJump(-1, 2)) {
         jumpX = -1;
         jumpY = 2;
       }
@@ -190,6 +248,12 @@ class Jumper {
       this.eatCherry(1);
     } else if((row[x] === "2") && this.cherries[2]) {
       this.eatCherry(2);
+    } else if((row[x] === "3") && this.cherries[3]) {
+      this.eatCherry(3);
+    } else if((row[x] === "4") && this.cherries[4]) {
+      this.eatCherry(4);
+    }else if((row[x] === "5") && this.cherries[5]) {
+      this.eatCherry(5);
     }
   }
 

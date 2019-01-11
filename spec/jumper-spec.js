@@ -4,7 +4,7 @@ describe ( 'Jumper', function() {
   var jumper;
 
   beforeEach(function() {
-    jumper = new Jumper (0,4,1);
+    jumper = new Jumper (0);
   });
 
   it('should return an array of rows', function() {
